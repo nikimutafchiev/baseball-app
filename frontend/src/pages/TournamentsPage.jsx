@@ -7,10 +7,11 @@ import InputFormTournament from "../components/InputForms/InputFormTournament";
 import useSWR from "swr";
 import { useEffect } from "react";
 import { useAuth } from "../AuthContext";
+import { HOST } from "../host";
 export default function TournamentsPage() {
     const [addClicked, setAddClicked] = useState(false);
     const [searchInput, setSearchInput] = useState("");
-    const tournaments = useSWR("http://localhost:6363/tournaments", (url) => fetch(url).then((res) => res.json()));
+    const tournaments = useSWR(`${HOST}/tournaments`, (url) => fetch(url).then((res) => res.json()));
     useEffect(
         () => { tournaments.mutate() }
         , [addClicked]);

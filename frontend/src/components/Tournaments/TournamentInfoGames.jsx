@@ -5,12 +5,13 @@ import InputFormGame from "../InputForms/InputFormGame";
 import useSWR from "swr";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
+import { HOST } from "../../host";
 export default function TournamentInfoGames() {
     const { user } = useAuth();
     const [addClicked, setAddClicked] = useState(false);
     const { id } = useParams();
-    const teams = useSWR(`http://localhost:6363/tournament_teams/?tournament_id=${id}`, (url) => fetch(url).then((res) => res.json()));
-    const games = useSWR(`http://localhost:6363/tournament_games/?tournament_id=${id}`, (url) => fetch(url).then((res) => res.json()));
+    const teams = useSWR(`${HOST}/tournament_teams/?tournament_id=${id}`, (url) => fetch(url).then((res) => res.json()));
+    const games = useSWR(`${HOST}/tournament_games/?tournament_id=${id}`, (url) => fetch(url).then((res) => res.json()));
     useEffect(
         () => { games.mutate() }, [addClicked]
     )

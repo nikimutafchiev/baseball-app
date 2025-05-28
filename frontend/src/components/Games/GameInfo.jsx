@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import validator from "validator"
 import GameScorerPlayByPlay from "../GameScorer/GameScorerPlayByPlay";
 import { CircularProgress, Alert } from "@mui/material";
+import { HOST } from "../../host";
 export default function GameInfo() {
     const { user, token } = useAuth();
     const statusIcons = {
@@ -24,11 +25,11 @@ export default function GameInfo() {
         ended: <RiCheckDoubleLine size={25} />
     };
     const { id } = useParams();
-    const game = useSWR(`http://localhost:6363/game/${id}`, (url) => fetch(url).then((res) => res.json()));
+    const game = useSWR(`${HOST}/game/${id}`, (url) => fetch(url).then((res) => res.json()));
     const [homeAway, setHomeAway] = useState("Home");
-    const homeRoster = useSWR(`http://localhost:6363/game/team/roster/?game_id=${id}&home_away=HOME`, (url) => fetch(url).then((res) => res.json()));
-    const awayRoster = useSWR(`http://localhost:6363/game/team/roster/?game_id=${id}&home_away=AWAY`, (url) => fetch(url).then((res) => res.json()));
-    const situations = useSWR(`http://localhost:6363/game/${id}/situations`, (url) => fetch(url).then((res) => res.json()));
+    const homeRoster = useSWR(`${HOST}/game/team/roster/?game_id=${id}&home_away=HOME`, (url) => fetch(url).then((res) => res.json()));
+    const awayRoster = useSWR(`${HOST}/game/team/roster/?game_id=${id}&home_away=AWAY`, (url) => fetch(url).then((res) => res.json()));
+    const situations = useSWR(`${HOST}/game/${id}/situations`, (url) => fetch(url).then((res) => res.json()));
     const [roster, setRoster] = useState([]);
     useEffect(() => {
         if (homeAway == "Home" && homeRoster.data)
@@ -48,7 +49,7 @@ export default function GameInfo() {
                         <TextField label={<div className="text-sm">Username</div>} variant="outlined" value={assignee} onChange={(e) => setAssignee(e.target.value)} className="w-1/2" size="small" helperText={!validator.isURL(assignee) && assignee.length != 0 ? "Invalid username" : ""}></TextField>
                         <button className="p-2 py-3 h-fit text-white bg-blue-500 hover:bg-blue-600 text-xs rounded drop-shadow-md font-semibold"
                             onClick={() => {
-                                fetch(`http://localhost:6363/game/assign/?username=${assignee}&game_id=${game.data.id}&assigner_id=${user.id}`, {
+                                fetch(`${HOST}/game/assign/?username=${assignee}&game_id=${game.data.id}&assigner_id=${user.id}`, {
                                     method: "POST",
                                     headers: {
                                         "Content-Type": "application/json",

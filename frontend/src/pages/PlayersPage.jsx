@@ -6,10 +6,11 @@ import { TextField } from "@mui/material";
 import { FiSearch } from "react-icons/fi";
 import useSWR from "swr";
 import { useAuth } from "../AuthContext";
+import { HOST } from "../host";
 export default function PlayersPage() {
     const [addClicked, setAddClicked] = useState(false);
     const [searchInput, setSearchInput] = useState("");
-    const players = useSWR("http://localhost:6363/players", (url) => fetch(url).then((res) => res.json()));
+    const players = useSWR(`${HOST}/players`, (url) => fetch(url).then((res) => res.json()));
     useEffect(
         () => { players.mutate() }, [addClicked]
     )

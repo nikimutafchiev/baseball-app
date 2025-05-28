@@ -25,6 +25,7 @@ import InputFormPlayer from "../InputForms/InputFormPlayer";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa"
 import useSWR from "swr";
 import PlayerSelectList from "../Other/PlayerSelectList";
+import { HOST } from "../../host";
 export default function PlayerInfo() {
 	const [isEdit, setIsEdit] = useState(false);
 	const { id } = useParams();
@@ -49,20 +50,20 @@ export default function PlayerInfo() {
 			res += `${res.length == 0 ? "?" : "&"}${query_params.year_query}`;
 		return res;
 	};
-	const player = useSWR(`http://localhost:6363/player/${id}`, (url) =>
+	const player = useSWR(`${HOST}/player/${id}`, (url) =>
 		fetch(url).then((res) => res.json())
 	);
-	const players = useSWR("http://localhost:6363/players", (url) =>
+	const players = useSWR(`${HOST}/players`, (url) =>
 		fetch(url).then((res) => res.json())
 	);
 	const [selectedPlayer, setSelectedPlayer] = useState(null);
 	const stats = useSWR(
-		`http://localhost:6363/player/${id}/stats/${get_query(true, true, true)}`,
+		`${HOST}/player/${id}/stats/${get_query(true, true, true)}`,
 		(url) => fetch(url).then((res) => res.json())
 	);
 	const [selectedPlayerStats, setSelectedPlayerStats] = useState([]);
 	const games_stats = useSWR(
-		`http://localhost:6363/player/${id}/games_stats/${get_query(
+		`${HOST}/player/${id}/games_stats/${get_query(
 			true,
 			true,
 			true
@@ -70,15 +71,15 @@ export default function PlayerInfo() {
 		(url) => fetch(url).then((res) => res.json())
 	);
 	const years = useSWR(
-		`http://localhost:6363/player/${id}/years/${get_query(true, true, false)}`,
+		`${HOST}/player/${id}/years/${get_query(true, true, false)}`,
 		(url) => fetch(url).then((res) => res.json())
 	);
 	const teams = useSWR(
-		`http://localhost:6363/player/${id}/teams/${get_query(true, false, true)}`,
+		`${HOST}/player/${id}/teams/${get_query(true, false, true)}`,
 		(url) => fetch(url).then((res) => res.json())
 	);
 	const tournaments = useSWR(
-		`http://localhost:6363/player/${id}/tournaments/${get_query(
+		`${HOST}/player/${id}/tournaments/${get_query(
 			false,
 			true,
 			true
@@ -94,7 +95,7 @@ export default function PlayerInfo() {
 	useEffect(() => {
 		if (selectedPlayer)
 			fetch(
-				`http://localhost:6363/player/${selectedPlayer.id}/stats/${get_query(
+				`${HOST}/player/${selectedPlayer.id}/stats/${get_query(
 					true,
 					true,
 					true

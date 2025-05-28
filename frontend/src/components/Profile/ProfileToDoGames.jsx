@@ -1,8 +1,9 @@
 import { useAuth } from "../../AuthContext"
 import useSWR from "swr";
+import { HOST } from "../../host";
 export default function ProfileToDoGames() {
     const { user } = useAuth();
-    const toDoGames = useSWR(`http://localhost:6363/to_do_games/?user_id=${user.id}`, (url) => fetch(url).then((res) => res.json()));
+    const toDoGames = useSWR(`${HOST}/to_do_games/?user_id=${user.id}`, (url) => fetch(url).then((res) => res.json()));
     return (<div className="w-full flex flex-col ">
         <h2 className="text-2xl font-semibold">To do list</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 py-5 ">

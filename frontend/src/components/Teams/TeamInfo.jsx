@@ -24,6 +24,7 @@ import {
 	MenuItem, CircularProgress
 } from "@mui/material";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa"
+import { HOST } from "../../host";
 export default function TeamInfo() {
 	const { id } = useParams();
 	const icons = {
@@ -33,7 +34,7 @@ export default function TeamInfo() {
 		youtube: <FaYoutube size={30} />,
 	};
 	const [isEdit, setIsEdit] = useState(false);
-	const team = useSWR(`http://localhost:6363/team/${id}`, (url) =>
+	const team = useSWR(`${HOST}/team/${id}`, (url) =>
 		fetch(url).then((res) => res.json())
 	);
 	const [isShrinked, setIsShrinked] = useState(false);
@@ -61,15 +62,15 @@ export default function TeamInfo() {
 	};
 	const [overviewOption, setOverviewOption] = useState("Batting");
 	const years = useSWR(
-		`http://localhost:6363/team/${id}/years/${get_query(true, true, false)}`,
+		`${HOST}/team/${id}/years/${get_query(true, true, false)}`,
 		(url) => fetch(url).then((res) => res.json())
 	);
 	const teams = useSWR(
-		`http://localhost:6363/team/${id}/teams/${get_query(true, false, true)}`,
+		`${HOST}/team/${id}/teams/${get_query(true, false, true)}`,
 		(url) => fetch(url).then((res) => res.json())
 	);
 	const tournaments = useSWR(
-		`http://localhost:6363/team/${id}/tournaments/${get_query(
+		`${HOST}/team/${id}/tournaments/${get_query(
 			false,
 			true,
 			true
@@ -77,10 +78,10 @@ export default function TeamInfo() {
 		(url) => fetch(url).then((res) => res.json())
 	);
 	const stats = useSWR(
-		`http://localhost:6363/team/${id}/stats/${get_query(true, true, true)}`,
+		`${HOST}/team/${id}/stats/${get_query(true, true, true)}`,
 		(url) => fetch(url).then((res) => res.json())
 	);
-	const teamsToSelect = useSWR("http://localhost:6363/teams", (url) =>
+	const teamsToSelect = useSWR(`${HOST}/teams`, (url) =>
 		fetch(url).then((res) => res.json())
 	);
 
@@ -88,7 +89,7 @@ export default function TeamInfo() {
 	const [selectedTeamStats, setSelectedTeamStats] = useState(null);
 	const [selectClicked, setSelectClicked] = useState(false);
 	const teamH2Hstats = useSWR(
-		`http://localhost:6363/team/${id}/stats/${get_query(
+		`${HOST}/team/${id}/stats/${get_query(
 			true,
 			false,
 			true,
@@ -163,7 +164,7 @@ export default function TeamInfo() {
 	useEffect(() => {
 		if (selectedTeam)
 			fetch(
-				`http://localhost:6363/team/${selectedTeam.id}/stats/${get_query(
+				`${HOST}/team/${selectedTeam.id}/stats/${get_query(
 					true,
 					false,
 					true,

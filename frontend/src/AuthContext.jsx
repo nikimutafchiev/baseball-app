@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
-import useSWR from 'swr';
+import { HOST } from './host';
 
 const AuthContext = createContext();
 
@@ -11,11 +11,9 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(token != "" ? jwtDecode(token).user : null);
     const navigate = useNavigate();
     const location = useLocation();
-    // const logged = useSWR(`http://localhost:6363/is_logged/?username=${user ? user.username : "''"}&password=${user ? user.password : "''"}`, (url) => fetch(url).then((res) => res.json()));
     const login = async (userData) => {
-
         try {
-            const response = await fetch("http://localhost:6363/login", {
+            const response = await fetch(`${HOST}/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -49,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
     const signup = async (userData) => {
         try {
-            const response = await fetch("http://localhost:6363/signup", {
+            const response = await fetch(`${HOST}/signup`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -66,16 +64,6 @@ export const AuthProvider = ({ children }) => {
             console.error(err);
         }
     }
-
-    // const is_logged = async () => {
-    //     if (logged.error)
-    //         logout();
-    // }
-    // useEffect(() => {
-    //     if (user) {
-    //         is_logged();
-    //     }
-    // }, [logged.data, location.pathname]);
     return (
         <AuthContext.Provider value={{ token, user, login, logout, signup }}>
             {children}

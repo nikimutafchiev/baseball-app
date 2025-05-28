@@ -2,9 +2,10 @@ import { ToggleButton, ToggleButtonGroup } from "@mui/material"
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import useSWR from "swr";
+import { HOST } from "../../host";
 export default function TournamentInfoPlayerLeaderboard() {
     const { id } = useParams();
-    const stats = useSWR(`http://localhost:6363/tournament/${id}/stats`, (url) => fetch(url).then((res) => res.json()));
+    const stats = useSWR(`${HOST}/tournament/${id}/stats`, (url) => fetch(url).then((res) => res.json()));
     const [overviewOption, setOverviewOption] = useState("Batting");
     return (<>
         {

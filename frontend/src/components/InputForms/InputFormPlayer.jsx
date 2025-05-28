@@ -8,6 +8,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import convertToBase64 from "../../global/ImageToBase64"
 import { useAuth } from "../../AuthContext";
+import { HOST } from "../../host";
 
 export default function InputFormPlayer(props) {
     const { token, logout } = useAuth();
@@ -87,7 +88,7 @@ export default function InputFormPlayer(props) {
     useEffect((() => {
         if (isSubmitted) {
             const dateOfBirth = new Date(date);
-            fetch(`http://localhost:6363/player${props.isEdit ? "/" + props.player.id.toString() : ""}`, {
+            fetch(`${HOST}/player${props.isEdit ? "/" + props.player.id.toString() : ""}`, {
                 method: (props.isEdit ? "PATCH" : "POST"),
                 headers: {
                     "Content-Type": "application/json",

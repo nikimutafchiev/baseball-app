@@ -1,9 +1,10 @@
 import { MdClose, MdCheck } from "react-icons/md"
 import useSWR from "swr";
 import { useAuth } from "../../AuthContext";
+import { HOST } from "../../host";
 export default function ProfileGameAssignments() {
     const { user, token, logout } = useAuth();
-    const assignedGames = useSWR(`http://localhost:6363/assigned_games/?user_id=${user.id}`, (url) => fetch(url).then((res) => res.json()));
+    const assignedGames = useSWR(`${HOST}/assigned_games/?user_id=${user.id}`, (url) => fetch(url).then((res) => res.json()));
     return (<div className="w-full flex flex-col">
         <h2 className="text-2xl font-semibold">Scoresheet assignments</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-5">
@@ -41,7 +42,7 @@ export default function ProfileGameAssignments() {
 
                 <div className="flex flex-row justify-around w-3/4 text-sm">
                     <button className="p-2 bg-accent_2 hover:bg-accent_3 flex flex-row items-center rounded text-white" onClick={() => {
-                        fetch(`http://localhost:6363/game/assign/?username=${user.username}&game_id=${game.id}`, {
+                        fetch(`${HOST}/game/assign/?username=${user.username}&game_id=${game.id}`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -55,7 +56,7 @@ export default function ProfileGameAssignments() {
                         <MdClose size={20} />  Reject
                     </button>
                     <button className="p-2 bg-primary_2 hover:bg-primary_3 flex flex-row items-center rounded  text-white" onClick={() => {
-                        fetch(`http://localhost:6363/game/to_do/?user_id=${user.id}&game_id=${game.id}`, {
+                        fetch(`${HOST}/game/to_do/?user_id=${user.id}&game_id=${game.id}`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",

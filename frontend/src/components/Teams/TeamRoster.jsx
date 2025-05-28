@@ -3,12 +3,13 @@ import { Link, useParams } from "react-router-dom";
 import { RiAddCircleLine } from "react-icons/ri";
 import PlayerSelectList from "../Other/PlayerSelectList";
 import useSWR from "swr";
+import { HOST } from "../../host";
 export default function TeamRoster() {
     const [addClicked, setAddClicked] = useState(false);
     const { team_id, id } = useParams();
-    const roster = useSWR(`http://localhost:6363/team_tournament/roster/?team_id=${team_id}&tournament_id=${id}`, (url) => fetch(url).then((res) => res.json()));
-    const players = useSWR("http://localhost:6363/players", (url) => fetch(url).then((res) => res.json()));
-    const taken_players = useSWR(`http://localhost:6363/tournament/taken_players/?tournament_id=${id}`, (url) => fetch(url).then((res) => res.json()));
+    const roster = useSWR(`${HOST}/team_tournament/roster/?team_id=${team_id}&tournament_id=${id}`, (url) => fetch(url).then((res) => res.json()));
+    const players = useSWR(`${HOST}/players`, (url) => fetch(url).then((res) => res.json()));
+    const taken_players = useSWR(`${HOST}/tournament/taken_players/?tournament_id=${id}`, (url) => fetch(url).then((res) => res.json()));
     const [selectList, setSelectList] = useState([]);
     useEffect(
         () => {

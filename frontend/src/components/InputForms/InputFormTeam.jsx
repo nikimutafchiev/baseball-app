@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import validator from "validator";
 import convertToBase64 from "../../global/ImageToBase64";
 import { useAuth } from "../../AuthContext";
+import { HOST } from "../../host";
 export default function InputFormTeam(props) {
     const icons = {
         facebook: <FaFacebook size={30} />,
@@ -34,7 +35,7 @@ export default function InputFormTeam(props) {
     const { token, logout } = useAuth();
     useEffect((() => {
         if (isSubmitted) {
-            fetch("http://localhost:6363/team", {
+            fetch(`${HOST}/team`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

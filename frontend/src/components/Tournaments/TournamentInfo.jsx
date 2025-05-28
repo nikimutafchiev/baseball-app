@@ -5,9 +5,10 @@ import { Outlet, Link, useParams } from "react-router-dom"
 import { useState } from "react";
 import { IoReorderThree } from "react-icons/io5";
 import useSWR from "swr";
+import { HOST } from "../../host";
 export default function TournamentInfo() {
     const { id } = useParams();
-    const tournament = useSWR(`http://localhost:6363/tournament/${id}`, (url) => fetch(url).then((res) => res.json()));
+    const tournament = useSWR(`${HOST}/tournament/${id}`, (url) => fetch(url).then((res) => res.json()));
     const [isShrinked, setIsShrinked] = useState(false);
     return (<>
         {

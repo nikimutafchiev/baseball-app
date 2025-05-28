@@ -1,9 +1,10 @@
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material"
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
+import { HOST } from "../../host";
 export default function TournamentInfoRanking() {
     const { id } = useParams()
-    const teams = useSWR(`http://localhost:6363/tournament/${id}/ranking`, (url) => fetch(url).then((res) => res.json()));
+    const teams = useSWR(`${HOST}/tournament/${id}/ranking`, (url) => fetch(url).then((res) => res.json()));
     return (<>{teams.data && <div className="w-full bg-white rounded p-4">
         <h2 className="text-3xl font-semibold mb-4">Rankings</h2>
         <TableContainer >

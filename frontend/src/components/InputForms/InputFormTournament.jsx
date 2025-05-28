@@ -7,6 +7,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from "dayjs";
 import convertToBase64 from "../../global/ImageToBase64";
 import { useAuth } from "../../AuthContext";
+import { HOST } from "../../host";
 export default function InputFormTournament(props) {
     const [name, setName] = useState("");
     const [place, setPlace] = useState("");
@@ -20,7 +21,7 @@ export default function InputFormTournament(props) {
     useEffect((() => {
         if (isSubmitted) {
             const start_date = new Date(startDate), end_date = new Date(endDate);
-            fetch("http://localhost:6363/tournament", {
+            fetch(`${HOST}/tournament`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

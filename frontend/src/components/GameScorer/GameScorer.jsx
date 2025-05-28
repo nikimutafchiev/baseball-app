@@ -20,6 +20,7 @@ import GameScorerSettings from "./GameScorerSettings";
 import GameScorerOutByRuleOptions from "./GameScorerOutByRuleOptions";
 import useSWR from "swr";
 import { useAuth } from "../../AuthContext";
+import { HOST } from "../../host";
 export default function GameScorer() {
     const { id } = useParams();
     const [situationOption, setSituationOption] = useState("");
@@ -39,10 +40,10 @@ export default function GameScorer() {
     const [homeBattingTurn, setHomeBattingTurn] = useState(1);
     const [awayBattingTurn, setAwayBattingTurn] = useState(1);
     const [roster, setRoster] = useState([]);
-    const game = useSWR(`http://localhost:6363/game/${id}`, (url) => fetch(url).then((res) => res.json()));
-    const homeRosterData = useSWR(`http://localhost:6363/game/team/roster/?game_id=${id}&home_away=HOME`, (url) => fetch(url).then((res) => res.json()));
-    const awayRosterData = useSWR(`http://localhost:6363/game/team/roster/?game_id=${id}&home_away=AWAY`, (url) => fetch(url).then((res) => res.json()));
-    const situationsData = useSWR(`http://localhost:6363/game/${id}/situations`, (url) => fetch(url).then((res) => res.json()));
+    const game = useSWR(`${HOST}/game/${id}`, (url) => fetch(url).then((res) => res.json()));
+    const homeRosterData = useSWR(`${HOST}/game/team/roster/?game_id=${id}&home_away=HOME`, (url) => fetch(url).then((res) => res.json()));
+    const awayRosterData = useSWR(`${HOST}/game/team/roster/?game_id=${id}&home_away=AWAY`, (url) => fetch(url).then((res) => res.json()));
+    const situationsData = useSWR(`${HOST}/game/${id}/situations`, (url) => fetch(url).then((res) => res.json()));
     const [homeRoster, setHomeRoster] = useState([
         // { id: 121, battingOrder: 5, uniformNumber: 55, firstName: "Nikolay", lastName: "Mutafchiev", position: "CF" },
         // { id: 122, battingOrder: 2, uniformNumber: 12, firstName: "Ivan", lastName: "Petrov", position: "1B" },
@@ -90,7 +91,7 @@ export default function GameScorer() {
             setAwayBattingTurn(newBatterTurn);
         else
             setHomeBattingTurn(newBatterTurn);
-        fetch(`http://localhost:6363/game/${id}/change_batting_turn`, {
+        fetch(`${HOST}/game/${id}/change_batting_turn`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -235,7 +236,7 @@ export default function GameScorer() {
                 secondBaseRunner: null,
                 thirdBaseRunner: null
             });
-            await fetch(`http://localhost:6363/game/${id}/change_outs`, {
+            await fetch(`${HOST}/game/${id}/change_outs`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -247,7 +248,7 @@ export default function GameScorer() {
 
             }).then(response => { if (response.status === 401) { logout(); alert("Session expired. Please login again.") } }).catch((e) => console.error(e));
 
-            await fetch(`http://localhost:6363/game/${id}/change_runners`, {
+            await fetch(`${HOST}/game/${id}/change_runners`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -263,7 +264,7 @@ export default function GameScorer() {
             if (inningHalf == "DOWN") {
                 setHomeLOB(homeLOB + Object.entries(offense).filter(([position, player]) => player !== null).length);
                 setInning(inning + 1);
-                await fetch(`http://localhost:6363/game_team/change_lob/?game_id=${id}&home_away=HOME`, {
+                await fetch(`${HOST}/game_team/change_lob/?game_id=${id}&home_away=HOME`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -279,7 +280,7 @@ export default function GameScorer() {
 
             else {
                 setAwayLOB(awayLOB + Object.entries(offense).filter(([position, player]) => player !== null).length);
-                await fetch(`http://localhost:6363/game_team/change_lob/?game_id=${id}&home_away=AWAY`, {
+                await fetch(`${HOST}/game_team/change_lob/?game_id=${id}&home_away=AWAY`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -293,7 +294,7 @@ export default function GameScorer() {
 
             }
             setInningHalf(inningHalf == "UP" ? "DOWN" : "UP");
-            await fetch(`http://localhost:6363/game/${id}/change_inning`, {
+            await fetch(`${HOST}/game/${id}/change_inning`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -304,7 +305,7 @@ export default function GameScorer() {
         }
         else {
             setOuts(outs + 1);
-            await fetch(`http://localhost:6363/game/${id}/change_outs`, {
+            await fetch(`${HOST}/game/${id}/change_outs`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -322,7 +323,7 @@ export default function GameScorer() {
     const situationAdder = () => {
         const newOuts = outs;
         setSituations([{ id: Infinity, data: { batter: currentSituation.batter, inning: currentSituation.inning, inningHalf: currentSituation.inningHalf, outs: newOuts, situation: currentSituation.situation, situationCategory: currentSituation.situationCategory, defense: currentSituation.defense, runners: runnersSituations, runs: runnersSituations.filter((runner) => runner.finalBase == "Home").length } }, ...situations]);
-        fetch(`http://localhost:6363/game/${id}/situation`, {
+        fetch(`${HOST}/game/${id}/situation`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -516,7 +517,7 @@ export default function GameScorer() {
             clearCount();
             nextBatter();
             if (inningHalf == "UP") {
-                fetch(`http://localhost:6363/game_team/change_hits/?game_id=${id}&home_away=AWAY`, {
+                fetch(`${HOST}/game_team/change_hits/?game_id=${id}&home_away=AWAY`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -530,7 +531,7 @@ export default function GameScorer() {
                 setAwayHits(awayHits + 1);
             }
             else {
-                fetch(`http://localhost:6363/game_team/change_hits/?game_id=${id}&home_away=HOME`, {
+                fetch(`${HOST}/game_team/change_hits/?game_id=${id}&home_away=HOME`, {
                     method: "POST",
                     headers: {
 
@@ -658,7 +659,7 @@ export default function GameScorer() {
                 clearCount();
                 nextBatter();
                 if (inningHalf == "DOWN") {
-                    fetch(`http://localhost:6363/game_team/change_errors/?game_id=${id}&home_away=AWAY`, {
+                    fetch(`${HOST}/game_team/change_errors/?game_id=${id}&home_away=AWAY`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -672,7 +673,7 @@ export default function GameScorer() {
                     setAwayErrors(awayErrors + 1);
                 }
                 else {
-                    fetch(`http://localhost:6363/game_team/change_errors/?game_id=${id}&home_away=HOME`, {
+                    fetch(`${HOST}/game_team/change_errors/?game_id=${id}&home_away=HOME`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -709,7 +710,7 @@ export default function GameScorer() {
                         const newPoints = points.away;
                         newPoints[inning - 1] = points.away[inning - 1] + 1;
                         setAwayPoints(awayPoints + 1);
-                        await fetch(`http://localhost:6363/game/${id}/change_points_by_inning`, {
+                        await fetch(`${HOST}/game/${id}/change_points_by_inning`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -721,7 +722,7 @@ export default function GameScorer() {
 
                         }).then(response => { if (response.status === 401) { logout(); alert("Session expired. Please login again.") } }).catch((e) => console.error(e));;
                         setPoints({ home: points.home, away: newPoints })
-                        await fetch(`http://localhost:6363/game_team/change_score/?game_id=${id}&home_away=AWAY`, {
+                        await fetch(`${HOST}/game_team/change_score/?game_id=${id}&home_away=AWAY`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -739,7 +740,7 @@ export default function GameScorer() {
                         newPoints[inning - 1] = points.home[inning - 1] + 1;
                         setHomePoints(homePoints + 1);
                         setPoints({ home: newPoints, away: points.away })
-                        await fetch(`http://localhost:6363/game/${id}/change_points_by_inning`, {
+                        await fetch(`${HOST}/game/${id}/change_points_by_inning`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -751,7 +752,7 @@ export default function GameScorer() {
 
                         }).then(response => { if (response.status === 401) { logout(); alert("Session expired. Please login again.") } }).catch((e) => console.error(e));;
 
-                        await fetch(`http://localhost:6363/game_team/change_score/?game_id=${id}&home_away=HOME`, {
+                        await fetch(`${HOST}/game_team/change_score/?game_id=${id}&home_away=HOME`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -772,7 +773,7 @@ export default function GameScorer() {
                 }
 
                 setOffense(newOffense);
-                fetch(`http://localhost:6363/game/${id}/change_runners`, {
+                fetch(`${HOST}/game/${id}/change_runners`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -803,7 +804,7 @@ export default function GameScorer() {
                         secondBaseRunner: null,
                         thirdBaseRunner: null
                     });
-                    await fetch(`http://localhost:6363/game/${id}/change_outs`, {
+                    await fetch(`${HOST}/game/${id}/change_outs`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -814,7 +815,7 @@ export default function GameScorer() {
                         })
 
                     }).then(response => { if (response.status === 401) { logout(); alert("Session expired. Please login again.") } }).catch((e) => console.error(e));;
-                    await fetch(`http://localhost:6363/game/${id}/change_runners`, {
+                    await fetch(`${HOST}/game/${id}/change_runners`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -832,7 +833,7 @@ export default function GameScorer() {
                     if (inningHalf == "DOWN") {
                         setHomeLOB(homeLOB + Object.entries(offense).filter(([position, player]) => player !== null).length);
                         setInning(inning + 1);
-                        await fetch(`http://localhost:6363/game_team/change_lob/?game_id=${id}&home_away=HOME`, {
+                        await fetch(`${HOST}/game_team/change_lob/?game_id=${id}&home_away=HOME`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -846,7 +847,7 @@ export default function GameScorer() {
                     }
                     else {
                         setAwayLOB(awayLOB + Object.entries(offense).filter(([position, player]) => player !== null).length);
-                        await fetch(`http://localhost:6363/game_team/change_lob/?game_id=${id}&home_away=AWAY`, {
+                        await fetch(`${HOST}/game_team/change_lob/?game_id=${id}&home_away=AWAY`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -860,7 +861,7 @@ export default function GameScorer() {
 
                     }
                     setInningHalf(inningHalf == "UP" ? "DOWN" : "UP");
-                    fetch(`http://localhost:6363/game/${id}/change_inning`, {
+                    fetch(`${HOST}/game/${id}/change_inning`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -870,7 +871,7 @@ export default function GameScorer() {
                 }
                 else {
                     setOuts(outs + 1);
-                    fetch(`http://localhost:6363/game/${id}/change_outs`, {
+                    fetch(`${HOST}/game/${id}/change_outs`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",

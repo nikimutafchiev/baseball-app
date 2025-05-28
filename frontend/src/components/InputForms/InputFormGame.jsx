@@ -9,6 +9,7 @@ import dayjs from "dayjs"
 import { useParams } from "react-router-dom"
 import validator from "validator";
 import { useAuth } from "../../AuthContext"
+import { HOST } from "../../host"
 export default function InputFormGame(props) {
     const { id } = useParams();
     const { token, logout } = useAuth();
@@ -24,7 +25,7 @@ export default function InputFormGame(props) {
         if (isSubmitted) {
             const time = new Date(datetime);
 
-            fetch(`http://localhost:6363/tournament_game/?tournament_id=${id}`, {
+            fetch(`${HOST}/tournament_game/?tournament_id=${id}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
