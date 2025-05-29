@@ -10,7 +10,7 @@ import { HOST } from "../host";
 export default function TeamsPage() {
     const [addClicked, setAddClicked] = useState(false);
     const [searchInput, setSearchInput] = useState("");
-    const teams = useSWR(`${HOST}/teams`, (url) => fetch(url).then((res) => res.json()));
+    const teams = useSWR(`${HOST}/team/teams`, (url) => fetch(url).then((res) => res.json()));
     useEffect(
         () => { teams.mutate() }
         , [addClicked]);

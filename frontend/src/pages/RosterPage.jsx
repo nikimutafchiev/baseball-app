@@ -12,7 +12,7 @@ export default function RosterPage() {
     const { token, logout } = useAuth();
     return (<>{
         game.data && <div className=" min-h-[90vh] flex flex-row justify-around p-2 ">
-            <Link className="rounded font-semibold bg-accent_2 hover:bg-accent_3 text-white drop-shadow-lg h-fit p-2" to={".."} relative="path">Back</Link>
+            <Link className="rounded font-semibold bg-accent_2 hover:bg-accent_3 text-white drop-shadow-lg h-fit p-2" to={-1} >Back</Link>
             <Roster team={game.data.homeTeam} tournament={game.data.tournament} homeAway="HOME" rosterReady={(isReady) => { if (isReady) setRostersReady([true, rostersReady[1]]); else setRostersReady([false, rostersReady[1]]) }} ready={rostersReady[0]} />
             <Roster team={game.data.awayTeam} tournament={game.data.tournament} homeAway="AWAY" rosterReady={(isReady) => { if (isReady) setRostersReady([rostersReady[0], true]); else setRostersReady([rostersReady[0], false]) }} ready={rostersReady[1]} />
             <button onClick={async () => {

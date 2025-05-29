@@ -25,7 +25,7 @@ export default function InputFormGame(props) {
         if (isSubmitted) {
             const time = new Date(datetime);
 
-            fetch(`${HOST}/tournament_game/?tournament_id=${id}`, {
+            fetch(`${HOST}/tournament/tournament_game/?tournament_id=${id}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

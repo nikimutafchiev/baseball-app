@@ -4,7 +4,7 @@ import { useAuth } from "../../AuthContext";
 import { HOST } from "../../host";
 export default function ProfileFavoriteGames() {
     const { user } = useAuth();
-    const favoriteGames = useSWR(`${HOST}/liked_games/?user_id=${user.id}`, (url) => fetch(url).then((res) => res.json()));
+    const favoriteGames = useSWR(`${HOST}/game/liked_games/?user_id=${user.id}`, (url) => fetch(url).then((res) => res.json()));
     return (<div className="w-full flex flex-col">
         <h2 className="text-2xl font-semibold">Favorite games</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-around gap-4 flex-wrap py-5">

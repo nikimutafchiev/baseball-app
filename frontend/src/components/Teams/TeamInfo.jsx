@@ -81,7 +81,7 @@ export default function TeamInfo() {
 		`${HOST}/team/${id}/stats/${get_query(true, true, true)}`,
 		(url) => fetch(url).then((res) => res.json())
 	);
-	const teamsToSelect = useSWR(`${HOST}/teams`, (url) =>
+	const teamsToSelect = useSWR(`${HOST}/team/teams`, (url) =>
 		fetch(url).then((res) => res.json())
 	);
 

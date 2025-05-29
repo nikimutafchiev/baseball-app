@@ -1,5 +1,5 @@
 from app import app
-from routes.routes import merge_dicts
+from functions.functions import merge_dicts
 import pytest
 
 @pytest.fixture
@@ -18,11 +18,11 @@ def test_merge_dicts():
     assert dict2 == {"a":4,"b":0,"c":2,"d":11,"e":12}
 
 def test_get_players_status(client):
-    response = client.get('/players')
+    response = client.get('/player/players')
     assert response.status_code == 200
 
 def test_get_players_result(client):
-    response = client.get('/players')
+    response = client.get('/player/players')
     assert isinstance(response.json, list)
 
 def test_get_invalid_player_status(client):
@@ -30,7 +30,7 @@ def test_get_invalid_player_status(client):
     assert response.status_code == 400
 
 def test_unauthenticated_post_player_status(client):
-    response = client.post("/player")
+    response = client.post("/player/player")
     assert response.status_code == 401
 
 def test_get_invalid_player_result(client):
@@ -38,15 +38,15 @@ def test_get_invalid_player_result(client):
     assert response.json == {"Error":"Invalid player id"}
 
 def test_get_teams_status(client):
-    response = client.get('/teams')
+    response = client.get('/team/teams')
     assert response.status_code == 200
 
 def test_get_teams_result(client):
-    response = client.get('/teams')
+    response = client.get('/team/teams')
     assert isinstance(response.json, list)
 
 def test_unauthenticated_post_team_status(client):
-    response = client.post("/team")
+    response = client.post("/team/team")
     assert response.status_code == 401
 
 def test_get_invalid_team_status(client):
@@ -54,39 +54,39 @@ def test_get_invalid_team_status(client):
     assert response.status_code == 400
 
 def test_unauthenticated_post_tournament_status(client):
-    response = client.post("/tournament")
+    response = client.post("/tournament/tournament")
     assert response.status_code == 401
 
 def test_get_tournaments_status(client):
-    response = client.get('/tournaments')
+    response = client.get('/tournament/tournaments')
     assert response.status_code == 200
 
 def test_get_tournaments_result(client):
-    response = client.get('/tournaments')
+    response = client.get('/tournament/tournaments')
     assert isinstance(response.json, list)
 
 def test_unauthenticated_post_tournament_game_status(client):
-    response = client.post("/tournament_game/")
+    response = client.post("/tournament/tournament_game/")
     assert response.status_code == 401
 
 def test_get_invalid_tournaments_games_status(client):
-    response = client.get('/tournament_games/')
+    response = client.get('/tournament/tournament_games/')
     assert response.status_code ==400
 
 def test_get_invalid_tournaments_games_result(client):
-    response = client.get('/tournament_games/')
+    response = client.get('/tournament/tournament_games/')
     assert response.json == {"message":"Invalid query parameters"}
 
 def test_unauthenticated_post_tournament_team_status(client):
-    response = client.post("/tournament_teams/")
+    response = client.post("/tournament/tournament_teams/")
     assert response.status_code == 401
 
 def test_get_invalid_tournaments_teams_status(client):
-    response = client.get('/tournament_teams/')
+    response = client.get('/tournament/tournament_teams/')
     assert response.status_code ==400
 
 def test_get_invalid_tournaments_teams_result(client):
-    response = client.get('/tournament_teams/')
+    response = client.get('/tournament/tournament_teams/')
     assert response.json == {"message":"Invalid query parameters"}
 
 def test_get_invalid_game_status(client):
@@ -94,15 +94,15 @@ def test_get_invalid_game_status(client):
     assert response.status_code ==400
 
 def test_unauthenticated_post_tournament_team_player_status(client):
-    response = client.post("/team_tournament/player/")
+    response = client.post("/tournament/team_tournament/player/")
     assert response.status_code == 401
 
 def test_get_invalid_team_tournament_roster_status(client):
-    response = client.get('/team_tournament/roster/')
+    response = client.get('/tournament/team_tournament/roster/')
     assert response.status_code ==400
 
 def test_get_invalid_team_tournament_roster_result(client):
-    response = client.get('/team_tournament/roster/')
+    response = client.get('/tournament/team_tournament/roster/')
     assert response.json == {"message":"Invalid query parameters"}
 
 def test_get_invalid_tournament_taken_players_status(client):
@@ -114,11 +114,11 @@ def test_get_invalid_tournament_taken_players_result(client):
     assert response.json == {"message":"Invalid query parameters"}
 
 def test_get_invalid_schedule_status(client):
-    response = client.get('/schedule/')
+    response = client.get('/schedule/schedule/')
     assert response.status_code ==400
 
 def test_get_invalid_schedule_result(client):
-    response = client.get('/schedule/')
+    response = client.get('/schedule/schedule/')
     assert response.json == {"message":"Invalid query parameters"}
 
 def test_get_invalid_game_team_players_status(client):
@@ -146,7 +146,7 @@ def test_unauthenticated_post_game_change_inning_status(client):
     assert response.status_code == 401
 
 def test_unauthenticated_post_game_team_change_score_status(client):
-    response = client.post("/game_team/change_score/")
+    response = client.post("/game/game_team/change_score/")
     assert response.status_code == 401
 
 def test_unauthenticated_post_game_change_batting_turn_status(client):
@@ -158,15 +158,15 @@ def test_unauthenticated_post_game_change_outs_status(client):
     assert response.status_code == 401
 
 def test_unauthenticated_post_game_team_change_lob_status(client):
-    response = client.post("/game_team/change_lob/")
+    response = client.post("/game/game_team/change_lob/")
     assert response.status_code == 401
 
 def test_unauthenticated_post_game_team_change_hits_status(client):
-    response = client.post("/game_team/change_hits/")
+    response = client.post("/game/game_team/change_hits/")
     assert response.status_code == 401
 
 def test_unauthenticated_post_game_team_change_errors_status(client):
-    response = client.post("/game_team/change_errors/")
+    response = client.post("/game/game_team/change_errors/")
     assert response.status_code == 401
 
 def test_unauthenticated_post_game_change_points_by_inning_status(client):

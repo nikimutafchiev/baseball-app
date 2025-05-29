@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     const location = useLocation();
     const login = async (userData) => {
         try {
-            const response = await fetch(`${HOST}/login`, {
+            const response = await fetch(`${HOST}/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
     const signup = async (userData) => {
         try {
-            const response = await fetch(`${HOST}/signup`, {
+            const response = await fetch(`${HOST}/auth/signup`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -35,7 +35,7 @@ export default function InputFormTeam(props) {
     const { token, logout } = useAuth();
     useEffect((() => {
         if (isSubmitted) {
-            fetch(`${HOST}/team`, {
+            fetch(`${HOST}/team/team`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

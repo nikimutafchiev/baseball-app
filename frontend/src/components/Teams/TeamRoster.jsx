@@ -7,8 +7,8 @@ import { HOST } from "../../host";
 export default function TeamRoster() {
     const [addClicked, setAddClicked] = useState(false);
     const { team_id, id } = useParams();
-    const roster = useSWR(`${HOST}/team_tournament/roster/?team_id=${team_id}&tournament_id=${id}`, (url) => fetch(url).then((res) => res.json()));
-    const players = useSWR(`${HOST}/players`, (url) => fetch(url).then((res) => res.json()));
+    const roster = useSWR(`${HOST}/tournament/team_tournament/roster/?team_id=${team_id}&tournament_id=${id}`, (url) => fetch(url).then((res) => res.json()));
+    const players = useSWR(`${HOST}/player/players`, (url) => fetch(url).then((res) => res.json()));
     const taken_players = useSWR(`${HOST}/tournament/taken_players/?tournament_id=${id}`, (url) => fetch(url).then((res) => res.json()));
     const [selectList, setSelectList] = useState([]);
     useEffect(

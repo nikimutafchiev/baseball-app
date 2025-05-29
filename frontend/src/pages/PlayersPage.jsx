@@ -10,7 +10,7 @@ import { HOST } from "../host";
 export default function PlayersPage() {
     const [addClicked, setAddClicked] = useState(false);
     const [searchInput, setSearchInput] = useState("");
-    const players = useSWR(`${HOST}/players`, (url) => fetch(url).then((res) => res.json()));
+    const players = useSWR(`${HOST}/player/players`, (url) => fetch(url).then((res) => res.json()));
     useEffect(
         () => { players.mutate() }, [addClicked]
     )

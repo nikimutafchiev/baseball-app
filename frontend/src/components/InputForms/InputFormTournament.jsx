@@ -21,7 +21,7 @@ export default function InputFormTournament(props) {
     useEffect((() => {
         if (isSubmitted) {
             const start_date = new Date(startDate), end_date = new Date(endDate);
-            fetch(`${HOST}/tournament`, {
+            fetch(`${HOST}/tournament/tournament`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

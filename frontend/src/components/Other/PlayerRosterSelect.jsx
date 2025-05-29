@@ -8,7 +8,7 @@ export default function PlayerRosterSelect(props) {
     const { team_id, id } = useParams();
     const { token, logout } = useAuth();
     const add_player = async () => {
-        await fetch(`${HOST}/team_tournament/player/?tournament_id=${id}&team_id=${team_id}&player_id=${props.player.id}`, {
+        await fetch(`${HOST}/tournament/team_tournament/player/?tournament_id=${id}&team_id=${team_id}&player_id=${props.player.id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

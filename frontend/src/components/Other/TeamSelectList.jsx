@@ -8,7 +8,7 @@ export default function TeamSelectList(props) {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const addTeam = async () => {
     await fetch(
-      `${HOST}/tournament_teams/?tournament_id=${props.tournament_id}&team_id=${selectedTeam.id}`,
+      `${HOST}/tournament/tournament_teams/?tournament_id=${props.tournament_id}&team_id=${selectedTeam.id}`,
       {
         method: "POST",
         headers: {

@@ -88,7 +88,7 @@ export default function InputFormPlayer(props) {
     useEffect((() => {
         if (isSubmitted) {
             const dateOfBirth = new Date(date);
-            fetch(`${HOST}/player${props.isEdit ? "/" + props.player.id.toString() : ""}`, {
+            fetch(`${HOST}/player/player${props.isEdit ? "/" + props.player.id.toString() : ""}`, {
                 method: (props.isEdit ? "PATCH" : "POST"),
                 headers: {
                     "Content-Type": "application/json",

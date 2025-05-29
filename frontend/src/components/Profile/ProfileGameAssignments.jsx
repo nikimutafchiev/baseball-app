@@ -4,7 +4,7 @@ import { useAuth } from "../../AuthContext";
 import { HOST } from "../../host";
 export default function ProfileGameAssignments() {
     const { user, token, logout } = useAuth();
-    const assignedGames = useSWR(`${HOST}/assigned_games/?user_id=${user.id}`, (url) => fetch(url).then((res) => res.json()));
+    const assignedGames = useSWR(`${HOST}/game/assigned_games/?user_id=${user.id}`, (url) => fetch(url).then((res) => res.json()));
     return (<div className="w-full flex flex-col">
         <h2 className="text-2xl font-semibold">Scoresheet assignments</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-5">

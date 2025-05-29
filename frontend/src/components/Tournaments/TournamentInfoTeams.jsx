@@ -10,8 +10,8 @@ import { HOST } from "../../host";
 export default function TournamentInfoTeams() {
     const [addClicked, setAddClicked] = useState(false);
     const { id } = useParams();
-    const selectTeams = useSWR(`${HOST}/teams`, (url) => fetch(url).then((res) => res.json()));
-    const teams = useSWR(`${HOST}/tournament_teams/?tournament_id=${id}`, (url) => fetch(url).then((res) => res.json()));
+    const selectTeams = useSWR(`${HOST}/teams/teams`, (url) => fetch(url).then((res) => res.json()));
+    const teams = useSWR(`${HOST}/tournament/tournament_teams/?tournament_id=${id}`, (url) => fetch(url).then((res) => res.json()));
     const teams_ids = teams.data ? teams.data.map((team) => team.id) : []
     const selectData = selectTeams.data ? selectTeams.data.filter((team) => !teams_ids.includes(team.id)) : [];
     const { user } = useAuth();

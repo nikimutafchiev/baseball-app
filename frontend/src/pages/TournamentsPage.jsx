@@ -11,7 +11,7 @@ import { HOST } from "../host";
 export default function TournamentsPage() {
     const [addClicked, setAddClicked] = useState(false);
     const [searchInput, setSearchInput] = useState("");
-    const tournaments = useSWR(`${HOST}/tournaments`, (url) => fetch(url).then((res) => res.json()));
+    const tournaments = useSWR(`${HOST}/tournament/tournaments`, (url) => fetch(url).then((res) => res.json()));
     useEffect(
         () => { tournaments.mutate() }
         , [addClicked]);

@@ -53,7 +53,7 @@ export default function PlayerInfo() {
 	const player = useSWR(`${HOST}/player/${id}`, (url) =>
 		fetch(url).then((res) => res.json())
 	);
-	const players = useSWR(`${HOST}/players`, (url) =>
+	const players = useSWR(`${HOST}/player/players`, (url) =>
 		fetch(url).then((res) => res.json())
 	);
 	const [selectedPlayer, setSelectedPlayer] = useState(null);
