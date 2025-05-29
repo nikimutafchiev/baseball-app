@@ -35,9 +35,9 @@ export default function Profile() {
                         <hr className="border-t-[2px]"></hr>
                         <Link className="flex flex-row text-lg font-semibold gap-2 p-1.5 items-center" to={"favorite_games"}><div><RiStarLine size={25} /></div><div>Favorite games</div></Link>
                         <hr className="border-t-[2px]"></hr>
-                        <Link className="flex flex-row text-lg font-semibold gap-2 p-1.5 items-center" to={"assignments"}><div><MdOutlineAssignment size={25} /></div><div>Assignments</div></Link>
-                        <hr className="border-t-[2px]"></hr>
-                        <Link className="flex flex-row text-lg font-semibold gap-2 p-1.5 items-center" to={"to_do"}><div><MdCheck size={25} /></div><div>To do</div></Link>
+                        {user.role === "admin" && <><Link className="flex flex-row text-lg font-semibold gap-2 p-1.5 items-center" to={"assignments"}><div><MdOutlineAssignment size={25} /></div><div>Assignments</div></Link>
+                            <hr className="border-t-[2px]"></hr></>}
+                        {user.role === "admin" && <><Link className="flex flex-row text-lg font-semibold gap-2 p-1.5 items-center" to={"to_do"}><div><MdCheck size={25} /></div><div>To do</div></Link></>}
                     </div>
                 </div>
             }
